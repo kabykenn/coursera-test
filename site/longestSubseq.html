@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>asdasd</title>
+	<script type="text/javascript"></script>
+</head>
+<body>
+<input type="text" name="s1" id="s1">
+<input type="text" name="s2" id="s2">
+<button onclick="show()">Press me</button>
+<br>
+<br>
+<p>Answer: <span id="id"></span></p>
+<script type="text/javascript">
+	function show() {
+		const s1 = document.getElementById("s1").value;
+		const s2 = document.getElementById("s2").value;
+		const result = document.getElementById("id");
+		result.innerHTML = longestSubseq(s1,s2);
+	}
+	function longestSubseq(s1,s2,s1StartIdx = 0,s2StartIdx = 0){
+		const results = [];
+		for(let s1Idx = s1StartIdx; s1Idx <s1.length; s1Idx++){
+			const s1Char = s1[s1Idx];
+			const s2Idx = s2.indexOf(s1Char, s2StartIdx);
+			let result = [];
+			if (s2Idx !== -1) {
+				result.push(s1Char, ...longestSubseq(s1,s2,s1Idx+1,s2Idx+1));
+			}
+			results.push(result);	
+		}
+		const longest = findLongest(results);
+		return longest.join('');
+	}
+	function findLongest(arr){
+		let longest = [];
+		for (let candidate of arr){
+			if(candidate.length > longest.length){
+				longest = candidate;
+			}
+		}
+		return longest;
+	}
+</script>
+</body>
+</html>
